@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LogiTrack · Panel de operaciones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- ======================= PANTALLA DE LOGIN ======================= -->
+<div id="login-screen" class="login-screen">
+  <div class="login-rack" aria-hidden="true">
+    <div class="rack-shelf"></div>
+    <div class="rack-shelf"></div>
+    <div class="rack-shelf"></div>
+    <div class="rack-shelf"></div>
+  </div>
+
+  <div class="login-card">
+    <div class="login-brand">
+      <span class="login-brand-mark">LT</span>
+      <div>
+        <h1>LogiTrack</h1>
+        <p>Control de bodegas, inventario y movimientos</p>
+      </div>
+    </div>
+
+    <form id="login-form" class="login-form" novalidate>
+      <label class="field">
+        <span>Correo electrónico</span>
+        <input type="email" id="login-email" autocomplete="username" placeholder="tu.nombre@logitrack.com" required />
+      </label>
+
+      <label class="field">
+        <span>Contraseña</span>
+        <input type="password" id="login-password" autocomplete="current-password" placeholder="••••••••" required />
+      </label>
+
+      <div id="login-error" class="login-error" hidden></div>
+
+      <button type="submit" id="login-submit" class="btn btn-primary btn-block">
+        <span class="btn-label">Ingresar</span>
+        <span class="spinner" hidden></span>
+      </button>
+
+      <label class="field field-inline">
+        <span>URL de la API</span>
+        <input type="text" id="api-base-input" placeholder="http://localhost:8080/api" />
+      </label>
+    </form>
+  </div>
+</div>
+
+<!-- ======================= APP (DASHBOARD) ======================= -->
+<div id="app-shell" class="app-shell" hidden>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-mark">LT</span>
+      <span class="brand-word">LogiTrack</span>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <a href="#/dashboard" data-route="dashboard" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M4 13h6V4H4v9zm0 7h6v-5H4v5zm10 0h6V11h-6v9zm0-16v5h6V4h-6z"/></svg>
+        <span>Tablero</span>
+      </a>
+      <a href="#/bodegas" data-route="bodegas" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5z"/></svg>
+        <span>Bodegas</span>
+      </a>
+      <a href="#/productos" data-route="productos" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5M12 13v8" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+        <span>Productos</span>
+      </a>
+      <a href="#/inventario" data-route="inventario" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v5H4V4zm0 7h16v9H4v-9zm3 3h4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span>Inventario</span>
+      </a>
+      <a href="#/movimientos" data-route="movimientos" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M4 7h13M17 7l-3-3M17 7l-3 3M20 17H7M7 17l3 3M7 17l3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Movimientos</span>
+      </a>
+      <a href="#/usuarios" data-route="usuarios" class="nav-item nav-admin">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c1-3.6 4-5.5 7-5.5s6 1.9 7 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>Usuarios</span>
+      </a>
+      <a href="#/auditoria" data-route="auditoria" class="nav-item nav-admin">
+        <svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.6-3 7.6-7 9-4-1.4-7-4.4-7-9V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span>Auditoría</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="conn-dot" id="conn-dot" title="Estado de la API"></div>
+      <span id="conn-label">Verificando API…</span>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
+          <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div>
+          <p class="topbar-eyebrow" id="topbar-eyebrow">Operación</p>
+          <h2 id="topbar-title">Tablero</h2>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="user-chip">
+          <div class="user-avatar" id="user-avatar">--</div>
+          <div>
+            <p class="user-name" id="user-name">—</p>
+            <p class="user-role" id="user-role">—</p>
+          </div>
+        </div>
+        <button class="btn btn-ghost" id="logout-btn">Salir</button>
+      </div>
+    </header>
+
+    <main id="view-root" class="view-root">
+      <!-- Las vistas se inyectan aquí -->
+    </main>
+  </div>
+</div>
+
+<!-- ======================= MODAL GENÉRICO ======================= -->
+<div id="modal-backdrop" class="modal-backdrop" hidden>
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h3 id="modal-title">Título</h3>
+      <button class="modal-close" id="modal-close" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ======================= TOASTS ======================= -->
+<div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
