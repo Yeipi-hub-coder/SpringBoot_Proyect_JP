@@ -1,10 +1,10 @@
-CREATE TABLE bodegaExamen(
+CREATE TABLE bodega_examen(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(100) NOT NULL,
 	ubicacion VARCHAR(200) NOT NULL
 )
 
-CREATE TABLE productoExamen(
+CREATE TABLE producto_examen(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(100) NOT NULL,
 	stock INT NOT NULL,
